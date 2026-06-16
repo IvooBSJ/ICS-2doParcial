@@ -25,9 +25,36 @@ jobs:
       - name: Ejecutar pruebas
         run: npm test
 
-  build:
+  sonar:
     runs-on: ubuntu-latest
     needs: test
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # SonarCloud necesita el historial completo
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar tests con cobertura
+        run: npm run test:coverage
+
+      - name: Análisis SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: sonar
 
     steps:
       - name: Checkout del código
