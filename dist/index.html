@@ -48,46 +48,26 @@
   <button onclick="validar()">Enviar</button>
   <p id="msg-resultado"></p>
 
-  <script>
-    async function validar() {
+  <script type="module">
+    import { validarEmail, validarPassword } from "./src/validador.js";
+
+    window.validar = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
+      const okEmail = validarEmail(email);
+      const okPassword = validarPassword(password);
 
       const msgEmail = document.getElementById("msg-email");
       const msgPassword = document.getElementById("msg-password");
       const msgResultado = document.getElementById("msg-resultado");
 
-      // Limpiar mensajes anteriores
-      msgEmail.textContent = "";
-      msgPassword.textContent = "";
-      msgResultado.textContent = "Validando...";
-      msgResultado.className = "";
+      msgEmail.textContent = okEmail ? "Email válido" : "Email inválido";
+      msgEmail.className = okEmail ? "ok" : "";
 
-      try {
-        // POST a la API Express/Vercel
-        const response = await fetch("/api/validar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        // Mostrar resultado por campo
-        msgEmail.textContent = data.emailValido ? "Email válido" : "Email inválido";
-        msgEmail.className = data.emailValido ? "ok" : "";
-
-        msgPassword.textContent = data.passwordValida ? "Contraseña válida" : "Contraseña inválida";
-        msgPassword.className = data.passwordValida ? "ok" : "";
-
-        // Mostrar resultado general
-        msgResultado.textContent = data.mensaje;
-        msgResultado.className = (data.emailValido && data.passwordValida) ? "ok" : "";
-
-      } catch (err) {
-        msgResultado.textContent = "Error al conectar con la API: " + err.message;
-      }
-    }
+      msgPassword.textContent = okPassword ? "Contraseña válida" : "Contraseña inválida";
+      msgPassword.className = okPassword ? "ok" : "";
+    };
   </script>
 
 </body>
