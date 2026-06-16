@@ -48,18 +48,10 @@
   <button onclick="validar()">Enviar</button>
   <p id="msg-resultado"></p>
 
-  <script>
-    function validarEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+  <script type="module">
+    import { validarEmail, validarPassword } from "./src/validador.js";
 
-    function validarPassword(password) {
-      return password.length >= 8 &&
-        /[A-Z]/.test(password) &&
-        /[0-9]/.test(password);
-    }
-
-    function validar() {
+    window.validar = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -75,7 +67,7 @@
 
       msgPassword.textContent = okPassword ? "Contraseña válida" : "Contraseña inválida";
       msgPassword.className = okPassword ? "ok" : "";
-    }
+    };
   </script>
 
 </body>

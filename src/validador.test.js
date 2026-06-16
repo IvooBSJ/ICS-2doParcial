@@ -1,4 +1,4 @@
-import { validarEmail, validarPassword } from "./validador";
+import { validarEmail, validarPassword } from "./validador.js";
 
 describe("Validador de Email", () => {
     test("email válido", () => {
