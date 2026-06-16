@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/api/validar", "dest": "/api/validar.js" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
