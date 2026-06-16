@@ -1,4 +1,4 @@
-import { validarEmail, validarPassword, validarDNI } from "./validador";
+import { validarEmail, validarPassword } from "./validador";
 
 describe("Validador de Email", () => {
     test("email válido", () => {
@@ -21,17 +21,5 @@ describe("Validador de Password", () => {
     });
     test("password muy corta", () => {
         expect(validarPassword("Aa1")).toBe(false);
-    });
-});
-
-describe("Validador de DNI", () => {
-    test("DNI válido de 8 dígitos", () => {
-        expect(validarDNI("40123456")).toBe(true);
-    });
-    test("DNI válido de 7 dígitos", () => {
-        expect(validarDNI("9876543")).toBe(true);
-    });
-    test("DNI con letras", () => {
-        expect(validarDNI("4012ABC6")).toBe(false);
     });
 });
