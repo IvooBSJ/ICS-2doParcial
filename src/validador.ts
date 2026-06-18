@@ -5,7 +5,7 @@ export function validarEmail(email: string): boolean {
 
 export function validarPassword(password: string): boolean {
     return (
-        password.length >= 8 &&
+        password.length >= 12 &&
         /[A-Z]/.test(password) &&
         /\d/.test(password)
     );
