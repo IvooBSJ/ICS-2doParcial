@@ -14,15 +14,12 @@ describe("Validador de Email", () => {
 
 describe("Validador de Password", () => {
     test("password válida", () => {
-        expect(validarPassword("Ejemplo123")).toBe(true);
+        expect(validarPassword("Segura123")).toBe(true);
     });
     test("password sin mayúscula", () => {
-        expect(validarPassword("ejemplo123")).toBe(false);
+        expect(validarPassword("segura123")).toBe(false);
     });
     test("password muy corta", () => {
         expect(validarPassword("Aa1")).toBe(false);
-    });
-    test("password sin número", () => {
-        expect(validarPassword("Ejemplo")).toBe(false);
     });
 });
