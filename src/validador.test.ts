@@ -22,4 +22,7 @@ describe("Validador de Password", () => {
     test("password muy corta", () => {
         expect(validarPassword("Aa1")).toBe(false);
     });
+    test("password sin número", () => {
+        expect(validarPassword("Segura")).toBe(false);
+    });
 });
