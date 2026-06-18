@@ -110,11 +110,10 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          status: ${{ job.status }}
+          status: ${{ (needs.test.result == 'failure' || needs.sonar.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure') && 'failure' || (needs.test.result == 'cancelled' || needs.sonar.result == 'cancelled' || needs.build.result == 'cancelled' || needs.deploy.result == 'cancelled') && 'cancelled' || 'success' }}
           title: "CI/CD — ICS-2doParcial"
           description: |
             **Branch:** `${{ github.ref_name }}`
             **Commit:** ${{ github.event.head_commit.message }}
             **Actor:** ${{ github.actor }}
           url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          color: 0x00ff88
