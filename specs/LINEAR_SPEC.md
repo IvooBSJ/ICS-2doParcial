@@ -10,34 +10,55 @@
 | Atributo | Valor |
 |---|---|
 | Herramienta | Linear (linear.app) |
+| Proyecto | ICS-2doParcial |
 | Integración | Linear ↔ GitHub (nativa) |
-| Convención de branches | `feature/ICS-<número>-descripcion` |
-| Convención de commits | `tipo: descripción [ICS-<número>]` |
+| Identificador de issues | `IVO-<número>` |
+| Convención de branches | `feature/ivo-<número>-descripcion` |
+| Convención de commits | `tipo: descripción [IVO-<número>]` |
 | Efecto | Issues de Linear se actualizan automáticamente con commits y PRs |
 
-**Propósito:** Conectar la gestión de tareas del equipo con el código. Cada issue en Linear tiene un ciclo de vida trazable: `Todo → In Progress → In Review → Done`, vinculado automáticamente a branches, commits y PRs de GitHub.
+**Propósito:** Conectar la gestión de tareas del equipo con el código. Cada issue en Linear tiene un ciclo de vida trazable: `Backlog → In Progress → In Review → Done`, vinculado automáticamente a branches, commits y PRs de GitHub.
 
 ---
 
-## 2. Flujo de trabajo del equipo
+## 2. Estado actual del proyecto
+
+### Backlog
+
+| ID | Issue | Estado |
+|---|---|---|
+| IVO-5 | add-docker | ⏳ Backlog |
+
+### Done
+
+| ID | Issue | Estado |
+|---|---|---|
+| IVO-9 | Deploy en Vercel con CD automático | ✅ Done |
+| IVO-8 | Configurar notificaciones Discord en pipeline | ✅ Done |
+| IVO-7 | Integrar SonarCloud para inspección de código | ✅ Done |
+| IVO-6 | Configurar pipeline CI con GitHub Actions | ✅ Done |
+
+---
+
+## 3. Flujo de trabajo del equipo
 
 ```
-Linear Issue creado
+Linear Issue creado (ej: IVO-5 add-docker)
        │
        ▼
   Branch creado desde Linear
-  feature/ICS-42-add-docker
+  feature/ivo-5-add-docker
        │
        ▼
   Desarrollo local
-  (commits con [ICS-42])
+  (commits con [IVO-5])
        │
        ▼
   Pull Request a main
   (Linear lo detecta → mueve issue a "In Review")
        │
        ▼
-  CI/CD pipeline pasa
+  CI/CD pipeline pasa (GitHub Actions)
        │
        ▼
   PR mergeado
@@ -46,66 +67,67 @@ Linear Issue creado
 
 ---
 
-## 3. Configuración de la integración
+## 4. Configuración de la integración
 
-### 3.1 Conectar Linear con GitHub
+### 4.1 Conectar Linear con GitHub
 
 1. Ir a **Linear → Settings → Integrations → GitHub**.
 2. Hacer clic en **Connect** y autorizar acceso al repositorio `IvooBSJ/ICS-2doParcial`.
 3. Linear detecta automáticamente branches y commits que contienen IDs de issues.
 
-### 3.2 Crear un issue en Linear y abrir branch desde ahí
+### 4.2 Crear un branch desde un issue de Linear
 
-En cada issue de Linear hay un botón **"Open in GitHub"** o se puede copiar el nombre del branch sugerido:
+En cada issue de Linear, Linear sugiere automáticamente el nombre del branch:
 
 ```
-feature/ICS-42-add-docker-support
+feature/ivo-5-add-docker
 ```
 
-Esto crea el branch en GitHub y mueve el issue a **"In Progress"** automáticamente.
+Crearlo desde Linear mueve el issue a **"In Progress"** automáticamente.
 
 ---
 
-## 4. Convenciones de nombres
+## 5. Convenciones de nombres
 
 ### Branches
 
 ```
-feature/ICS-<número>-<descripcion-corta>
-fix/ICS-<número>-<descripcion-corta>
-chore/ICS-<número>-<descripcion-corta>
+feature/ivo-<número>-<descripcion-corta>
+fix/ivo-<número>-<descripcion-corta>
+chore/ivo-<número>-<descripcion-corta>
 ```
 
-Ejemplos reales del proyecto:
+### Issues reales del proyecto
 
-| Issue | Branch |
-|---|---|
-| Migrar validador a TypeScript | `feature/ICS-1-typescript-migration` |
-| Añadir Docker | `feature/ICS-2-add-docker` |
-| Configurar Discord notifications | `feature/ICS-3-discord-ci-notifications` |
-| Fix SonarCloud coverage | `fix/ICS-4-sonar-coverage` |
+| ID Linear | Issue | Branch |
+|---|---|---|
+| IVO-6 | Configurar pipeline CI con GitHub Actions | `feature/ivo-6-ci-github-actions` |
+| IVO-7 | Integrar SonarCloud para inspección de código | `feature/ivo-7-sonarcloud` |
+| IVO-8 | Configurar notificaciones Discord en pipeline | `feature/ivo-8-discord-notifications` |
+| IVO-9 | Deploy en Vercel con CD automático | `feature/ivo-9-vercel-deploy` |
+| IVO-5 | add-docker | `feature/ivo-5-add-docker` |
 
 ### Commits
 
 ```
-feat: descripción [ICS-<número>]
-fix:  descripción [ICS-<número>]
+feat: descripción [IVO-<número>]
+fix:  descripción [IVO-<número>]
 ```
 
 ---
 
-## 5. Estados del issue en Linear y sus triggers
+## 6. Estados del issue en Linear y sus triggers
 
 | Estado Linear | Cuándo ocurre |
 |---|---|
-| **Todo** | Issue creado |
+| **Backlog** | Issue creado, sin trabajo iniciado |
 | **In Progress** | Branch con ID del issue es pusheado |
 | **In Review** | Pull Request abierto hacia `main` |
 | **Done** | PR mergeado a `main` |
 
 ---
 
-## 6. Valor para el proyecto y la evaluación
+## 7. Valor para el proyecto y la evaluación
 
 La integración Linear ↔ GitHub demuestra:
 
@@ -114,33 +136,23 @@ La integración Linear ↔ GitHub demuestra:
 - **CI/CD como gate**: el pipeline de GitHub Actions actúa como validador antes de que un issue pueda cerrarse.
 
 ```
-Requerimiento (Linear)
+Requerimiento (Linear IVO-X)
       ↓
-   Código (GitHub branch)
+   Código (GitHub branch feature/ivo-X-...)
       ↓
    Validación (GitHub Actions CI/CD)
       ↓
    Entrega (Deploy a Vercel)
       ↓
-   Issue cerrado (Linear)
+   Issue cerrado automáticamente (Linear → Done)
 ```
-
----
-
-## 7. Setup requerido (una sola vez)
-
-1. Crear cuenta en [linear.app](https://linear.app) (gratis para equipos pequeños).
-2. Crear un proyecto llamado `ICS-2doParcial`.
-3. Ir a **Settings → Integrations → GitHub** → conectar el repositorio.
-4. Crear issues para las features del proyecto (ver tabla de branches arriba como referencia).
-5. A partir de ahí, abrir branches desde Linear para que el vínculo sea automático.
 
 ---
 
 ## 8. Criterios de aceptación
 
-- [ ] Linear conectado al repositorio `IvooBSJ/ICS-2doParcial`.
-- [ ] Al menos 3 issues creados representando features del proyecto.
-- [ ] Un branch abierto desde Linear mueve el issue a "In Progress".
-- [ ] Un PR abierto mueve el issue a "In Review".
-- [ ] El merge a main mueve el issue a "Done".
+- [x] Linear conectado al repositorio `IvooBSJ/ICS-2doParcial`.
+- [x] Al menos 3 issues creados representando features del proyecto (IVO-6 a IVO-9 + IVO-5).
+- [ ] Branch `feature/ivo-5-add-docker` abierto desde Linear mueve IVO-5 a "In Progress".
+- [ ] PR con IVO-5 abierto mueve el issue a "In Review".
+- [ ] Merge a `main` mueve IVO-5 a "Done".
