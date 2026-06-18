@@ -75,15 +75,20 @@ Linear Issue creado (ej: IVO-5 add-docker)
 2. Hacer clic en **Connect** y autorizar acceso al repositorio `IvooBSJ/ICS-2doParcial`.
 3. Linear detecta automáticamente branches y commits que contienen IDs de issues.
 
-### 4.2 Crear un branch desde un issue de Linear
+### 4.2 Crear un branch para un issue de Linear
 
-En cada issue de Linear, Linear sugiere automáticamente el nombre del branch:
+Linear sugiere automáticamente el nombre del branch en cada issue. El flujo real es:
 
-```
-feature/ivo-5-add-docker
-```
-
-Crearlo desde Linear mueve el issue a **"In Progress"** automáticamente.
+1. Abrir el issue en Linear → copiar el nombre de branch sugerido:
+   ```
+   feature/ivo-5-add-docker
+   ```
+2. Al copiar el nombre, Linear detecta la intención y mueve el issue a **"In Progress"** automáticamente — sin necesidad de crearlo desde Linear.
+3. Crear el branch en GitHub o localmente:
+   ```bash
+   git checkout -b feature/ivo-5-add-docker
+   ```
+4. Pushear a GitHub — Linear confirma el vínculo al detectar el nombre en el repositorio.
 
 ---
 
@@ -153,6 +158,7 @@ Requerimiento (Linear IVO-X)
 
 - [x] Linear conectado al repositorio `IvooBSJ/ICS-2doParcial`.
 - [x] Al menos 3 issues creados representando features del proyecto (IVO-6 a IVO-9 + IVO-5).
-- [ ] Branch `feature/ivo-5-add-docker` abierto desde Linear mueve IVO-5 a "In Progress".
+- [x] Copiar el nombre del branch desde Linear mueve IVO-5 a "In Progress" automáticamente.
+- [x] Branch `feature/ivo-5-add-docker` creado en GitHub y localmente.
 - [ ] PR con IVO-5 abierto mueve el issue a "In Review".
 - [ ] Merge a `main` mueve IVO-5 a "Done".

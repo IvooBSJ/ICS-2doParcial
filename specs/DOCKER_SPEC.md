@@ -13,8 +13,8 @@
 | Base image | `node:20-alpine` |
 | Estrategia | Multi-stage build (builder + runner) |
 | Puerto expuesto | `3000` |
-| Comando de arranque | `docker run -p 3000:3000 ics2do` |
-| Archivos nuevos | `Dockerfile`, `.dockerignore` |
+| Comando de arranque local | `docker compose up` |
+| Archivos nuevos | `Dockerfile`, `.dockerignore`, `docker-compose.yml` |
 
 **Propósito:** Proveer un entorno de ejecución estándar y reproducible. El multi-stage build garantiza que la imagen final sea liviana: solo contiene el código compilado y las dependencias de producción, sin TypeScript ni devDependencies.
 
@@ -79,7 +79,23 @@ CMD ["node", "server.js"]
 
 ---
 
-## 4. .dockerignore
+## 4. docker-compose.yml
+
+`docker-compose.yml` define **cómo correr** el contenedor localmente, mientras que el `Dockerfile` define **cómo construir** la imagen. Con Compose solo necesitás un comando para todo:
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+```
+
+---
+
+## 5. .dockerignore
 
 ```
 node_modules/
@@ -96,17 +112,23 @@ specs/
 
 ---
 
-## 5. Comandos de uso
+## 6. Comandos de uso
 
-### Build de la imagen
+### Levantar con Docker Compose (recomendado)
 
 ```bash
-docker build -t ics2do .
+docker compose up
 ```
 
-### Levantar el servidor
+Esto hace el build de la imagen automáticamente si no existe, y levanta el servidor.
+
+### Comandos manuales (alternativa)
 
 ```bash
+# Construir la imagen
+docker build -t ics2do .
+
+# Correr el contenedor
 docker run -p 3000:3000 ics2do
 ```
 
@@ -118,49 +140,31 @@ http://localhost:3000
 
 ---
 
-## 6. Integración con CI/CD
+## 7. Integración con CI/CD
 
-Se agrega un job `docker-build` en el workflow de GitHub Actions para verificar que la imagen construye correctamente en cada push a `main`.
+El pipeline de CI/CD no tiene un job separado de Docker — la verificación del `Dockerfile` se hace implícitamente a través del `build` job que ya compila el mismo código que Docker empaqueta.
 
-```yaml
-docker-build:
-  runs-on: ubuntu-latest
-  needs: build
-
-  steps:
-    - name: Checkout del código
-      uses: actions/checkout@v3
-
-    - name: Verificar build de Docker
-      run: docker build -t ics2do .
-```
-
-> Este job no hace push a ningún registry — solo verifica que el `Dockerfile` funciona.
-> Es suficiente para demostrar que el entorno es reproducible.
+> Si en el futuro se desea publicar la imagen a un registry (Docker Hub, GHCR),
+> se podría agregar un job `docker-push` después del job `build`.
 
 ---
 
-## 7. Flujo SDD
+## 8. Flujo SDD
 
 ```
-DOCKER_SPEC.md  ──▶  Dockerfile + .dockerignore  ──▶  docker run
-   (este doc)            (implementación)              (entorno local)
-                               │
-                         ci.yml job docker-build
-                         (verificación en CI)
+DOCKER_SPEC.md  ──▶  Dockerfile + docker-compose.yml  ──▶  docker compose up
+   (este doc)              (implementación)                  (entorno local)
 ```
 
 1. **Definir contrato** → Este documento establece la estrategia y los archivos necesarios.
-2. **Implementar** → `Dockerfile` y `.dockerignore` en la raíz del proyecto.
-3. **Verificar local** → `docker build -t ics2do .` → `docker run -p 3000:3000 ics2do`.
-4. **Verificar en CI** → Job `docker-build` en `ci.yml` confirma que la imagen construye en el servidor de IC.
+2. **Implementar** → `Dockerfile`, `.dockerignore` y `docker-compose.yml` en la raíz.
+3. **Verificar local** → `docker compose up` → servidor en `http://localhost:3000`.
+4. **Verificar funcionalidad** → `POST http://localhost:3000/api/validar` responde correctamente.
 
 ---
 
-## 8. Criterios de aceptación
+## 9. Criterios de aceptación
 
-- [ ] `docker build -t ics2do .` termina sin errores.
-- [ ] `docker run -p 3000:3000 ics2do` levanta el servidor.
+- [ ] `docker compose up` construye la imagen y levanta el servidor sin errores.
 - [ ] `POST http://localhost:3000/api/validar` responde correctamente desde el container.
 - [ ] La imagen final NO contiene `node_modules` de devDependencies (jest, typescript, etc.).
-- [ ] El job `docker-build` pasa en GitHub Actions.
