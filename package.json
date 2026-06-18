@@ -9,7 +9,8 @@
     "lint": "eslint src/**/*.ts",
     "build": "node build.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "validate": "npm test && npm run build"
   },
   "dependencies": {
     "express": "^4.18.2"
