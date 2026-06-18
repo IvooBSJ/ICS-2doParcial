@@ -13,7 +13,7 @@
 | Proyecto | ICS-2doParcial |
 | Integración | Linear ↔ GitHub (nativa) |
 | Identificador de issues | `IVO-<número>` |
-| Convención de branches | `feature/ivo-<número>-descripcion` |
+| Convención de branches | `feature/IVO-<número>-descripcion` |
 | Convención de commits | `tipo: descripción [IVO-<número>]` |
 | Efecto | Issues de Linear se actualizan automáticamente con commits y PRs |
 
@@ -81,15 +81,14 @@ Linear sugiere automáticamente el nombre del branch en cada issue. El flujo rea
 
 1. Abrir el issue en Linear → copiar el nombre de branch sugerido:
    ```
-   feature/ivo-5-add-docker
+   feature/IVO-5-add-docker
    ```
 2. Al copiar el nombre, Linear detecta la intención y mueve el issue a **"In Progress"** automáticamente — sin necesidad de crearlo desde Linear.
 3. Crear el branch en GitHub o localmente:
    ```bash
-   git checkout -b feature/ivo-5-add-docker
+   git checkout -b feature/IVO-5-add-docker
    ```
 4. Pushear a GitHub — Linear confirma el vínculo al detectar el nombre en el repositorio.
-
 ---
 
 ## 5. Convenciones de nombres
@@ -106,11 +105,11 @@ chore/ivo-<número>-<descripcion-corta>
 
 | ID Linear | Issue | Branch |
 |---|---|---|
-| IVO-6 | Configurar pipeline CI con GitHub Actions | `feature/ivo-6-ci-github-actions` |
-| IVO-7 | Integrar SonarCloud para inspección de código | `feature/ivo-7-sonarcloud` |
-| IVO-8 | Configurar notificaciones Discord en pipeline | `feature/ivo-8-discord-notifications` |
-| IVO-9 | Deploy en Vercel con CD automático | `feature/ivo-9-vercel-deploy` |
-| IVO-5 | add-docker | `feature/ivo-5-add-docker` |
+| IVO-6 | Configurar pipeline CI con GitHub Actions | `feature/IVO-6-ci-github-actions` |
+| IVO-7 | Integrar SonarCloud para inspección de código | `feature/IVO-7-sonarcloud` |
+| IVO-8 | Configurar notificaciones Discord en pipeline | `feature/IVO-8-discord-notifications` |
+| IVO-9 | Deploy en Vercel con CD automático | `feature/IVO-9-vercel-deploy` |
+| IVO-5 | add-docker | `feature/IVO-5-add-docker` |
 
 ### Commits
 
