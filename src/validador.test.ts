@@ -5,7 +5,7 @@ describe("Validador de Email", () => {
         expect(validarEmail("usuario@gmail.com")).toBe(true);
     });
     test("email sin arroba", () => {
-        expect(validarEmail("usuariogmail.com")).toBe(true);
+        expect(validarEmail("usuariogmail.com")).toBe(false);
     });
     test("email vacío", () => {
         expect(validarEmail("")).toBe(false);
