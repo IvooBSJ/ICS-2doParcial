@@ -24,6 +24,7 @@
     "testEnvironment": "node",
     "extensionsToTreatAsEsm": [".ts"],
     "moduleNameMapper": {
+      "^((?:\\.\\./)*)dist/(.+)\\.js$": "<rootDir>/src/$2",
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "transform": {
