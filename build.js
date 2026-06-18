@@ -12,7 +12,12 @@ const FILES_TO_COPY = ['index.html'];
 
 console.log('Iniciando build...\n');
 
-// Paso 1: Compilar TypeScript
+// Paso 1: Lint
+console.log('Ejecutando ESLint...');
+execSync('npm run lint', { stdio: 'inherit' });
+console.log('  Lint OK\n');
+
+// Paso 2: Compilar TypeScript
 console.log('Compilando TypeScript...');
 execSync('npx tsc', { stdio: 'inherit' });
 console.log('  TypeScript compilado → dist/\n');
