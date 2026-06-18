@@ -1,8 +1,8 @@
 // api/validar.js
 // Implementación del endpoint POST /api/validar
-// Derivado de la especificación openapi.yaml (Spec Driven Development)
+// La lógica de validación proviene del módulo TypeScript compilado en dist/
 
-import { validarEmail, validarPassword } from '../src/validador.js';
+import { validarEmail, validarPassword } from '../dist/validador.js';
 
 export default function handler(req, res) {
   // Solo aceptar POST según la spec
