@@ -1,11 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/validar.js", "use": "@vercel/node" },
-    { "src": "index.html",     "use": "@vercel/static" }
-  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "routes": [
-    { "src": "/api/validar", "dest": "/api/validar.js" },
+    { "src": "/api/validar", "dest": "api/validar.js" },
     { "src": "/(.*)",        "dest": "/index.html" }
   ]
 }
